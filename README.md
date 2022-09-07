@@ -34,7 +34,7 @@ When the db service runs it can be checked by pgAdmin.
 
 An example of how to check it in the browser:
 ```
-[http://localhost:8086/](http://localhost:8086/)
+http://localhost:8086/
 ```
 or you can try with the curl in terminal:
 ```
@@ -59,7 +59,7 @@ To see if it works properly, there is a port 80 open in the lb service.
 
 In the browser:
 ```
-[http://localhost/](http://localhost/)
+http://localhost/
 ```
 
 Finally it chooses one of the web servers, when the page will refresh.
@@ -75,5 +75,7 @@ So this project was created to demonstrate how to use a solution for load balanc
 
 ___________
 I thank them:
+
 The SQL database from @lerocha: [https://github.com/lerocha/chinook-database](https://github.com/lerocha/chinook-database)
+
 The web.war app is made by @rkohanyi
