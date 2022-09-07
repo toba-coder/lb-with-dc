@@ -1,0 +1,65 @@
+version: '3.3'
+
+services:
+  db:
+    image: postgres:11
+    volumes:
+      - ./chinook_data.sql:/docker-entrypoint-initdb.d/chinook_data.sql
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=chinook
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=pAss-123
+
+  web1:
+    build: .
+    restart: always
+    environment:
+      - DEMO_NAME=Web1
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/chinook
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=pAss-123
+    ports:
+      - "8086:8080"
+    links:
+      - db
+
+  web2:
+    build: .
+    restart: always
+    environment:
+      - DEMO_NAME=Web2
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/chinook
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=pAss-123
+    ports:
+      - "8087:8080"
+    links:
+      - db
+
+  web3:
+    build: .
+    restart: always
+    environment:
+      - DEMO_NAME=Web3
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/chinook
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=pAss-123
+    ports:
+      - "8088:8080"
+    links:
+      - db
+
+  lb:
+    image: nginx
+    restart: always
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - web1
+      - web2
+      - web3
